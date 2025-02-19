@@ -51,17 +51,18 @@ const Main: FC = () => {
               status: TRANSLATING,
             }))
           );
-          translateData.map(async ({ languageKey, text }, i) => {
+          translateData.map(async ({ languageKey }, i) => {
             const t = await translate({
               source_lang: Language.English,
               target_lang: languageKey,
-              text,
+              text: translateText,
               auth_key: deeplKey,
             });
-            setTranslateData(() =>
-              produce(translateData, (draft) => {
+            console.log(t);
+            setTranslateData((td) =>
+              produce(td, (draft) => {
                 draft[i].status = TRANSLATED;
-                draft[i].text = t.translations[0].text;
+                draft[i].text = t.translations[0]?.text;
               })
             );
           });
